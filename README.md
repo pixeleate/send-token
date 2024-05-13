@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Send Token
 
-## Getting Started
+## Live https://send-token-swart.vercel.app/
 
-First, run the development server:
+As I mentioned earlier, I'm not a Web3 expert and I have only played around with some of the tooling, that being said, the project was built as follows:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Technologies used
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- React
+- TypeScript
+- Next.js
+- Tailwind
+- Zod (For data typing and form validation )
+- React Hook Form (For interacting with forms)
+- Wagmi
+- Viem
+- Shadcn UI (To quickly prototype the UI, some customization was done)
+- React Testing Library
+- Vitest
+- Bun (Package manager only, it is faster than others)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Caveats
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- When I was trying to see the USDC balance only the AVAX balance were showing up, maybe I didn't configure something correctly, the balance was in my wallet but not when using `wagmi`, so I based the project on using AVAX, I need to look into this further.
+- I was trying to calculate the total (gas + amount to send) of the transaction to show an error to the user when the balance were insuficient, however, I couldn't, I was able to get the gas price using `wagmi` but seems other calculations or fees where missing (I should read more about this)
 
-## Learn More
+## Approach
 
-To learn more about Next.js, take a look at the following resources:
+The app counts with only 2 main elements the `Wallet` componet which allows the user connect and disconnect their Crypto Wallet, I use MetaMask so I used the `injected` connector.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Initially the user will see the `Send Token` form with 2 options to connect their wallet, a button direction on the form and another button in the top right of the page, once the user has connected their form, the state of the main button should change to `Send`, that is the active state, clicking on the button will trigger the `form validation` providing feedback to the user on what is missing, either balance or a valid address.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+When the user connects their walllet, the user will be able to see the current balance and if a bigger amount is entered in the field, an error will be prompt.
 
-## Deploy on Vercel
+If all the element are correct the user will be able to complete the transaction getting feedback all the time by seeing the hash and confirmation of the transaction.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Testing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+The app is setup to run tests using the tooling above, however, I was not able to get them working, the `wagmi` documentation for testing is not really good, so I didn't have time to research more to make them work.
+
+# Conclusion
+
+The project works, and does everything that was in the requirements, only the testing part is not working, I found many github issues with similar problems due to missing docs after the v2 release of `wagmi`.
